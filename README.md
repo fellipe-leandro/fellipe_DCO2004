@@ -1,8 +1,8 @@
 # fellipe_DCO2004
 Repositório contendo projetos da disciplina DCO2004
 
-# Nova Seção
-## Nova subseção
-Exercício para praticar _Markdown_ sintaxe.
-![Image](https://upload.wikimedia.org/wikipedia/commons/5/54/GitHub_Logo.png)
-[Link para página](http://jupyter.org)
+# Unidade 01
+## Hands-On 00
+* [Entregável VM](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/VM_Reg.ipynb)
+* [Entregavel - Praticando Jupyter Notebook](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/pratica1.ipynb)
+* [Etregável  - Configurando e testando Kernel Matlab](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/testMatlab.ipynb)
