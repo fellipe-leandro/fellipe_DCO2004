@@ -17,7 +17,8 @@ pl0SF = 10*log10(1./(abs(pbs0SF).^4)/1e-3);
 pl1SF = 10*log10(1./(abs(pbs1SF).^4)/1e-3);
 pl2SF = 10*log10(1./(abs(pbs2SF).^4)/1e-3);
 % Cálculo da melhor potência e cada ponto do grid
-plfSF = max(pl0SF,pl1SF);
+[plfSF, I] = max(pl0SF,pl1SF);
+
 plfSF = max (plfSF,pl2SF);
 tempoSemFor = toc(t2); % fecha contador de tempo e guarda tempo na variável tempoComFor
 disp(['Tempo sem Laço FOR = ' num2str(tempoSemFor)]); % Mostra tempo de execuçao do código
