@@ -56,7 +56,7 @@ function piano_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 
 % Update handles structure
-handles.tf = 1;                   % Tempo de duração da nota
+handles.tf = 0.6;                   % Tempo de duração da nota
 handles.fc = 512;                 % Frequência da nota Dó
 handles.fs = 100*handles.fc;              % Frequência de amostragem da nota. 
 handles.tempo = 0:1/handles.fs:handles.tf;  % Vetor tempo. Para cada elemento do vetor t, haverá um elemento em y correspondente.
@@ -83,7 +83,7 @@ function nota_Do_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
     axes(handles.Plot_Nota);
-    y=6*sin(2*pi*handles.fc*handles.tempo);
+    y=6*cos(2*pi*handles.fc*handles.tempo);
     p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
     play(p);
     pause(handles.tf);
@@ -97,6 +97,13 @@ function Nota_Re_Callback(hObject, eventdata, handles)
 % hObject    handle to Nota_Re (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+axes(handles.Plot_Nota);
+    y=6*cos(2*(9/8)*pi*handles.fc*handles.tempo);
+    p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
+    play(p);
+    pause(handles.tf);
+    plot(handles.tempo,y);
+    axis([0 0.02 -10 10 ]);     % Zoom para melhor visualizaçã
 
 
 % --- Executes on button press in Nota_Mi.
@@ -104,6 +111,12 @@ function Nota_Mi_Callback(hObject, eventdata, handles)
 % hObject    handle to Nota_Mi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+y=6*cos(2*(5/4)*pi*handles.fc*handles.tempo);
+    p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
+    play(p);
+    pause(handles.tf);
+    plot(handles.tempo,y);
+    axis([0 0.02 -10 10 ]);     % Zoom para melhor visualizaçã
 
 
 % --- Executes on button press in Nota_Fa.
