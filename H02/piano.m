@@ -83,12 +83,12 @@ function nota_Do_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
     axes(handles.Plot_Nota);
-    y=6*cos(2*pi*handles.fc*handles.tempo);
+    y=1*cos(2*pi*handles.fc*handles.tempo);
     p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
     play(p);
     pause(handles.tf);
     plot(handles.tempo,y);
-    axis([0 0.02 -10 10 ]);     % Zoom para melhor visualizaçã
+    axis([0 0.02 -2 2 ]);     % Zoom para melhor visualizaçã
     
 
 
@@ -98,12 +98,12 @@ function Nota_Re_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 axes(handles.Plot_Nota);
-    y=6*cos(2*(9/8)*pi*handles.fc*handles.tempo);
+    y=1*cos(2*(9/8)*pi*handles.fc*handles.tempo);
     p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
     play(p);
     pause(handles.tf);
     plot(handles.tempo,y);
-    axis([0 0.02 -10 10 ]);     % Zoom para melhor visualizaçã
+    axis([0 0.02 -2 2 ]);     % Zoom para melhor visualizaçã
 
 
 % --- Executes on button press in Nota_Mi.
@@ -111,12 +111,12 @@ function Nota_Mi_Callback(hObject, eventdata, handles)
 % hObject    handle to Nota_Mi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-y=6*cos(2*(5/4)*pi*handles.fc*handles.tempo);
+    y=1*cos(2*(5/4)*pi*handles.fc*handles.tempo);
     p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
     play(p);
     pause(handles.tf);
     plot(handles.tempo,y);
-    axis([0 0.02 -10 10 ]);     % Zoom para melhor visualizaçã
+    axis([0 0.02 -2 2 ]);     % Zoom para melhor visualização
 
 
 % --- Executes on button press in Nota_Fa.
@@ -124,13 +124,24 @@ function Nota_Fa_Callback(hObject, eventdata, handles)
 % hObject    handle to Nota_Fa (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+    y=1*cos(2*(4/3)*pi*handles.fc*handles.tempo);
+    p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
+    play(p);
+    pause(handles.tf);
+    plot(handles.tempo,y);
+    axis([0 0.02 -2 2 ]);     % Zoom para melhor visualização
 
 % --- Executes on button press in Nota_Sol.
 function Nota_Sol_Callback(hObject, eventdata, handles)
 % hObject    handle to Nota_Sol (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+    y=1*cos(2*(3/2)*pi*handles.fc*handles.tempo);
+    p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
+    play(p);
+    pause(handles.tf);
+    plot(handles.tempo,y);
+    axis([0 0.02 -2 2 ]);     % Zoom para melhor visualização
 
 
 % --- Executes on button press in Nota_La.
@@ -138,6 +149,12 @@ function Nota_La_Callback(hObject, eventdata, handles)
 % hObject    handle to Nota_La (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+    y=1*cos(2*(5/3)*pi*handles.fc*handles.tempo);
+    p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
+    play(p);
+    pause(handles.tf);
+    plot(handles.tempo,y);
+    axis([0 0.02 -2 2 ]);     % Zoom para melhor visualização
 
 
 % --- Executes on button press in Nota_Si.
@@ -145,3 +162,9 @@ function Nota_Si_Callback(hObject, eventdata, handles)
 % hObject    handle to Nota_Si (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+    y=1*cos(2*(15/8)*pi*handles.fc*handles.tempo);
+    p = audioplayer(y, handles.fs);   % Reproduzir o sinal gerado
+    play(p);
+    pause(handles.tf);
+    plot(handles.tempo,y);
+    axis([0 0.02 -2 2 ]);     % Zoom para melhor visualização
