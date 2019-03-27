@@ -15,3 +15,7 @@ Repositório contendo projetos da disciplina DCO2004
 
 ## Hands-On 02
 * [Entregável D1 - Criação de uma interface Gráfica](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/D01%20-%20%20Interface%20Gr%C3%A1fica.ipynb)
+* [Entregável D2](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/D02%20-%20H02.ipynb)
+* [Entregável D3] (https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/D03%20-%20H02.ipynb)
+* [Entregável D4](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/D04%20-%20H02.ipynb)
+* [Entregável - Python](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/Entregavel%20-%20Python.ipynb)
