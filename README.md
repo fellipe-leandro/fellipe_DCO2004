@@ -14,4 +14,4 @@ Repositório contendo projetos da disciplina DCO2004
 * [Entregável D4 - Sistema sem Laço - Python](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/D04%20%20-%20Entreg%C3%A1vel%20H01%20(python).ipynb)
 
 ## Hands-On 02
-* [Entregável D1 - Criação de uma interface Gráfica](https://github.com/fellipe-l)
+* [Entregável D1 - Criação de uma interface Gráfica](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/D01%20-%20%20Interface%20Gr%C3%A1fica.ipynb)
