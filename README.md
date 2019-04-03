@@ -19,3 +19,6 @@ Repositório contendo projetos da disciplina DCO2004
 * [Entregável D3](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/D03%20-%20H02.ipynb)
 * [Entregável D4](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/D04%20-%20H02.ipynb)
 * [Entregável - Python](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H02/Entregavel%20-%20Python.ipynb)
+
+## Hands_On 03
+* [Entregável - Análise em Frequência de Arquivos de Áudio](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H03/D01%20-%20H03.ipynb)
