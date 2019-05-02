@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 
 ## Parâmetros da Sinc
 B=250                                                  # Banda do filtro
-Ts=1/(250*np.pi*B)                                         # Taxa de geração (Passo no tempo)
+Ts=1/(10*B)                                         # Taxa de geração (Passo no tempo)
 Fs=1/Ts                                                    # Frequência de amostragem
 N=10000                                                    # Número de amostras
 tf=N*Ts                                                    # Tempo final
@@ -29,7 +29,7 @@ lfft=len(s)                                                # Comprimento da FFT
 S=fftshift(fft(s,lfft)/lfft)                               # Sinc S(f)
 M=fftshift(fft(m,lfft)/lfft)                               # Sinal M(f) 
 C=fftshift(fft(c,lfft)/lfft)                               # Sinal M(f) 
-freq = np.arange(-Fs/2,Fs/2-Fs/lfft,Fs/lfft)               # Eixo da frequência
+freq = np.arange(-Fs/2,Fs/2,Fs/lfft)               # Eixo da frequência
 # Gráficos
 plt.figure(1,[10,7])
 plt.subplot(321)
