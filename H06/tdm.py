@@ -98,8 +98,10 @@ plt.xlim([-50,50])
 
 #QUANTIZACAO
 
-L=8 # níveis de quantização
-q_out=np.zeros((N_sinal,n_col))
+L=256 # níveis de quantização ( bi)
+q_out=np.zeros((N_sinal,n_col),dtype=np.uint64)
+q_out_code=np.zeros((N_sinal,n_col),dtype=np.uint64)
+
 for i in range(0,n_col):
     sig_max=max(s_out[:,i])
     sig_min=min(s_out[:,i])
@@ -111,16 +113,69 @@ for i in range(0,n_col):
     sigp=sigp + 1/2 +0.0001                          # Tira elementos do zero 
     # Agora que nenhum valor do sinal  é zero nem negativo:
     qindex=np.round(sigp)                            # Encontra inteiro mais proximo para cada elemento
-    qindex[qindex>L] = L                           # Trunca o excedente de qindex 
+    qindex[qindex>L] = L-1                           # Trunca o excedente de qindex 
     qindex = qindex.astype(int)                      # Casting para inteiro (garantindo que é do tipo inteiro)
-    q_out[:,i]=q_level[abs(qindex-1)]                     # Distribui nos níveis cada elemento 
+    #q_out[:,i]=q_level[abs(qindex-1)]                     # Distribui nos níveis cada elemento 
+    q_out[:,i] = qindex
+    aux=qindex
+    q_out_code[:,i]= de2bi(aux)              # Transforma em sinal binário 
 
-plt.figure(4)
-plt.plot(t,s_out[:,0],t,q_out[:,0])
-plt.xlim([0,0.5])
-plt.show()
+#plt.figure(4)
+#plt.plot(t,s_out[:,0],t,q_out[:,0])
+#plt.xlim([0,0.5])
+#plt.show()
+# Multiplexação
+frameSize = 5;                            # Tamanho do quadro (número máximo de sinais a serem multiplexados)      
+mux_sig = np.zeros(len(qindex)*frameSize,dtype=int)
+#mux_sig é uma matriz 4000x5 em matlab, onde cada coluna contém os 5 dígitos do binário
+#em Python, a palavra binária não é decomposta nos seus 5 dígitos
+#devido a isso, mux_sig é um simples array de 4000 elementos, cada um sendo um binário completo
+for i in range(1,len(qindex)+1): 
+    mux_sig[5*(i-1)]      =   q_out_code[i-1,0]  # Indexação em python começa em 0
+    mux_sig[5*(i-1)+1]    =   q_out_code[i-1,1]
+    mux_sig[5*(i-1)+2]    =   q_out_code[i-1,2]
+    mux_sig[5*(i-1)+3]    =   q_out_code[i-1,3]
+    mux_sig[5*(i-1)+4]    =   q_out_code[i-1,4]
+#
 
+#Demultiplexador de sinais    
+demux_01 = np.zeros(N_sinal,dtype=int)
+demux_02 = np.zeros(N_sinal,dtype=int)
+demux_03 = np.zeros(N_sinal,dtype=int)
+demux_04 = np.zeros(N_sinal,dtype=int)
+demux_05 = np.zeros(N_sinal,dtype=int)
+for i in range(1,N_sinal+1):
+    demux_01[i-1]= mux_sig[(i-1)*5 ]
+    demux_02[i-1]= mux_sig[(i-1)*5 + 1]
+    demux_03[i-1]= mux_sig[(i-1)*5 + 2]
+    demux_04[i-1]= mux_sig[(i-1)*5 + 3]
+    demux_05[i-1]= mux_sig[(i-1)*5 + 4]
+# Decodifcação    
+sig_rec01 = bi2de(demux_01)
+sig_rec02 = bi2de(demux_02)
+sig_rec03 = bi2de(demux_03)
+sig_rec04 = bi2de(demux_04)
+sig_rec05 = bi2de(demux_05)
+# Teste se decoficação funcionou
+if (np.array_equal(sig_rec01,q_out[:,0])):
+   print("Sinais sig_rec01 e sinal1 são iguais: decodficação realizada com sucesso!!!")
+else:
+   print("Sinais sig_rec01 e sinal1 são diferentes: decodficação falhou!!!")
 
-
-
-
+if (np.array_equal(sig_rec02,q_out[:,1])):
+   print("Sinais sig_rec02 e sinal2 são iguais: decodficação realizada com sucesso!!!")
+else:
+   print("Sinais sig_rec02 e sinal2 são diferentes: decodficação falhou!!!")
+if (np.array_equal(sig_rec03,q_out[:,2])):
+   print("Sinais sig_rec03 e sinal3 são iguais: decodficação realizada com sucesso!!!")
+else:
+   print("Sinais sig_rec03 e sinal3 são diferentes: decodficação falhou!!!")
+if (np.array_equal(sig_rec04,q_out[:,3])):
+   print("Sinais sig_rec04 e sinal4 são iguais: decodficação realizada com sucesso!!!")
+else:
+   print("Sinais sig_rec04 e sinal4 são diferentes: decodficação falhou!!!")
+if (np.array_equal(sig_rec05,q_out[:,4])):
+   print("Sinais sig_rec05 e sinal5 são iguais: decodficação realizada com sucesso!!!")
+else:
+   print("Sinais sig_rec05 e sinal5 são diferentes: decodficação falhou!!!")
+plt.subplot(521)
