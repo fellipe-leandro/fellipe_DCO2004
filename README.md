@@ -26,3 +26,8 @@ Repositório contendo projetos da disciplina DCO2004
 # Unidade 02
 ## Hands-On 05
 * [Entregável - Modulação Analógica](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H05/%20Entrega_h05.ipynb)
+## Hands-On 06
+* [Enregável - Regeneração Ideal de um Sinal](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H06/Entregavel01.ipynb)
+* [Entregável - Quantização](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H06/Entregavel%2002.ipynb)
+* [Entregável - TDM](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H06/Entregavel%2003.ipynb)
+
