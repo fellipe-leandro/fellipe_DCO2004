@@ -84,16 +84,16 @@ H_lpf[lfft//2-BW:lfft//2+BW-1]=1                             # Define 1 na frequ
 Q1_recv=N_samp*S1_out*H_lpf                                    # Filtragem ideal
 q1_recv=np.real(ifft(fftshift(Q1_recv)))                       # Reconstroi o sinal no tempo
 q1_recv=q1_recv*np.max(sinal_1)/np.max(q1_recv)                     # Dá ganho pro sinal reconstruído
-plt.figure(3)
-plt.subplot(311)
-plt.plot(freq,abs(S1))
-plt.xlim([-50,50])
-plt.subplot(312)
-plt.plot(freq,abs(Q1_recv))
-plt.xlim([-50,50])
-plt.subplot(313)
-plt.plot(freq,H_lpf)
-plt.xlim([-50,50])
+#plt.figure(3)
+#plt.subplot(311)
+#plt.plot(freq,abs(S1))
+#plt.xlim([-50,50])
+#plt.subplot(312)
+#plt.plot(freq,abs(Q1_recv))
+#plt.xlim([-50,50])
+#plt.subplot(313)
+#plt.plot(freq,H_lpf)
+#plt.xlim([-50,50])
 #plt.legend(["Sinal Original","Sinal Reconstruido"])
 
 #QUANTIZACAO
@@ -101,13 +101,15 @@ plt.xlim([-50,50])
 L=256 # níveis de quantização ( bi)
 q_out=np.zeros((N_sinal,n_col),dtype=np.uint64)
 q_out_code=np.zeros((N_sinal,n_col),dtype=np.uint64)
+sig_min=np.zeros(n_col)
+sig_max=np.zeros(n_col)
 
 for i in range(0,n_col):
-    sig_max=max(s_out[:,i])
-    sig_min=min(s_out[:,i])
-    Delta=(sig_max-sig_min)/L                       # Intervalo de quantização (distância entre um nível e outro)
-    q_level=np.arange(sig_min+Delta/2,sig_max,Delta) # Vetor com as amplitudes dos Q níveis (Ex: nível 4 -- q_level(4)= -0.05V)
-    sigp=s_out[:,i]-sig_min                                 # Deixa o sinal somente com amplitudes positivas (shift para cima)
+    sig_max[i]=max(s_out[:,i])
+    sig_min[i]=min(s_out[:,i])
+    Delta=(sig_max[i]-sig_min[i])/L                       # Intervalo de quantização (distância entre um nível e outro)
+    q_level=np.arange(sig_min[i]+Delta/2,sig_max[i],Delta) # Vetor com as amplitudes dos Q níveis (Ex: nível 4 -- q_level(4)= -0.05V)
+    sigp=s_out[:,i]-sig_min[i]                                 # Deixa o sinal somente com amplitudes positivas (shift para cima)
     # Calcula a quantidade de nívels (não inteiro ainda) de cada amostra (elementos >= 0)
     sigp=sigp*(1/Delta)                                
     sigp=sigp + 1/2 +0.0001                          # Tira elementos do zero 
@@ -151,11 +153,12 @@ for i in range(1,N_sinal+1):
     demux_04[i-1]= mux_sig[(i-1)*5 + 3]
     demux_05[i-1]= mux_sig[(i-1)*5 + 4]
 # Decodifcação    
-sig_rec01 = bi2de(demux_01)
-sig_rec02 = bi2de(demux_02)
-sig_rec03 = bi2de(demux_03)
-sig_rec04 = bi2de(demux_04)
-sig_rec05 = bi2de(demux_05)
+sig_rec01 = (bi2de(demux_01)-127)*sig_max[0]*256
+sig_rec02 = (bi2de(demux_02)-127)*sig_max[1]*256
+sig_rec03 = (bi2de(demux_03)-127)*sig_max[2]*256
+sig_rec04 = (bi2de(demux_04)-127)*sig_max[3]*256
+sig_rec05 = (bi2de(demux_05)-127)*sig_max[4]*256
+
 # Teste se decoficação funcionou
 if (np.array_equal(sig_rec01,q_out[:,0])):
    print("Sinais sig_rec01 e sinal1 são iguais: decodficação realizada com sucesso!!!")
@@ -178,4 +181,93 @@ if (np.array_equal(sig_rec05,q_out[:,4])):
    print("Sinais sig_rec05 e sinal5 são iguais: decodficação realizada com sucesso!!!")
 else:
    print("Sinais sig_rec05 e sinal5 são diferentes: decodficação falhou!!!")
+lfft=len(sig_rec01)
+BW=550#banda da rect (em pontos da fft)
+
+
+##Recuperaçao IDEAL VIA FILTRAGEM NA FREQUENCIA 
+freq = np.arange(-Fs/2,Fs/2,Fs/lfft)
+S1_out=fftshift(fft(sig_rec01,lfft)/lfft)
+S2_out=fftshift(fft(sig_rec02,lfft)/lfft)
+S3_out=fftshift(fft(sig_rec03,lfft)/lfft)
+S4_out=fftshift(fft(sig_rec04,lfft)/lfft)
+S5_out=fftshift(fft(sig_rec05,lfft)/lfft)
+
+#plt.figure(2)
+#plt.plot(freq,np.abs(S1_out))
+#plt.show()
+H_lpf=np.zeros(lfft)                                         # Zera vetor filtro
+H_lpf[lfft//2-BW:lfft//2+BW-1]=1                             # Define 1 na frequência desejada
+Q1_recv=N_samp*S1_out*H_lpf                                # Filtragem ideal
+Q2_recv=N_samp*S2_out*H_lpf   
+Q3_recv=N_samp*S3_out*H_lpf   
+Q4_recv=N_samp*S4_out*H_lpf   
+Q5_recv=N_samp*S5_out*H_lpf   
+
+q1_recv=np.real(ifft(fftshift(Q1_recv))) 
+q2_recv=np.real(ifft(fftshift(Q2_recv)))                      # Reconstroi o sinal no tempo
+q3_recv=np.real(ifft(fftshift(Q3_recv)))
+q4_recv=np.real(ifft(fftshift(Q4_recv)))
+q5_recv=np.real(ifft(fftshift(Q5_recv)))
+q1_recv=q1_recv*np.max(sinal_1)/np.max(q1_recv)                     # Dá ganho pro sinal reconstruído
+
+
+#Plotagens:
+plt.figure(5)
 plt.subplot(521)
+plt.plot(t,sinal_1)
+plt.title("Sinal 01 Original")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+plt.subplot(522)
+plt.plot(t,q1_recv)
+plt.title("Sinal 01 Recuperado")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+
+plt.subplot(523)
+plt.plot(t,sinal_2)
+plt.title("Sinal 02 Original")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+plt.subplot(524)
+plt.plot(t,q2_recv)
+plt.title("Sinal 02 Recuperado")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+
+plt.subplot(525)
+plt.plot(t,sinal_3)
+plt.title("Sinal 03 Original")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+plt.subplot(526)
+plt.plot(t,q3_recv)
+plt.title("Sinal 03 Recuperado")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+
+plt.subplot(527)
+plt.plot(t,sinal_4)
+plt.title("Sinal 04 Original")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+plt.subplot(528)
+plt.plot(t,q4_recv)
+plt.title("Sinal 04 Recuperado")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+
+plt.subplot(529)
+plt.plot(t,sinal_5)
+plt.title("Sinal 05 Original")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+plt.subplot(5,2,10)
+plt.plot(t,q5_recv)
+plt.title("Sinal 05 Recuperado")
+plt.xlabel("t[s]")
+plt.xlim([0, 0.5])
+
+
+
