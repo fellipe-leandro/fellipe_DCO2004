@@ -98,7 +98,7 @@ q1_recv=q1_recv*np.max(sinal_1)/np.max(q1_recv)                     # Dá ganho 
 
 #QUANTIZACAO
 
-L=256 # níveis de quantização ( bi)
+L=512 # níveis de quantização ( bi)
 q_out=np.zeros((N_sinal,n_col),dtype=np.uint64)
 q_out_code=np.zeros((N_sinal,n_col),dtype=np.uint64)
 sig_min=np.zeros(n_col)
@@ -153,11 +153,11 @@ for i in range(1,N_sinal+1):
     demux_04[i-1]= mux_sig[(i-1)*5 + 3]
     demux_05[i-1]= mux_sig[(i-1)*5 + 4]
 # Decodifcação    
-sig_rec01 = (bi2de(demux_01)-127)*sig_max[0]*256
-sig_rec02 = (bi2de(demux_02)-127)*sig_max[1]*256
-sig_rec03 = (bi2de(demux_03)-127)*sig_max[2]*256
-sig_rec04 = (bi2de(demux_04)-127)*sig_max[3]*256
-sig_rec05 = (bi2de(demux_05)-127)*sig_max[4]*256
+sig_rec01 = (bi2de(demux_01))
+sig_rec02 = (bi2de(demux_02))
+sig_rec03 = (bi2de(demux_03))
+sig_rec04 = (bi2de(demux_04))
+sig_rec05 = (bi2de(demux_05))
 
 # Teste se decoficação funcionou
 if (np.array_equal(sig_rec01,q_out[:,0])):
@@ -183,7 +183,11 @@ else:
    print("Sinais sig_rec05 e sinal5 são diferentes: decodficação falhou!!!")
 lfft=len(sig_rec01)
 BW=550#banda da rect (em pontos da fft)
-
+sig_rec01 = (bi2de(demux_01)-255)*sig_max[0]*512
+sig_rec02 = (bi2de(demux_02)-127)*sig_max[1]*256
+sig_rec03 = (bi2de(demux_03)-127)*sig_max[2]*256
+sig_rec04 = (bi2de(demux_04)-127)*sig_max[3]*256
+sig_rec05 = (bi2de(demux_05)-127)*sig_max[4]*256
 
 ##Recuperaçao IDEAL VIA FILTRAGEM NA FREQUENCIA 
 freq = np.arange(-Fs/2,Fs/2,Fs/lfft)
@@ -215,7 +219,7 @@ q1_recv=q1_recv*np.max(sinal_1)/np.max(q1_recv)                     # Dá ganho 
 #Plotagens:
 plt.figure(5)
 plt.subplot(521)
-plt.plot(t,sinal_1)
+plt.plot(t,sinal_1,t,q1_recv)
 plt.title("Sinal 01 Original")
 plt.xlabel("t[s]")
 plt.xlim([0, 0.5])
