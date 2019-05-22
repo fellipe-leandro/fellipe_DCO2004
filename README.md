@@ -30,4 +30,5 @@ Repositório contendo projetos da disciplina DCO2004
 * [Enregável - Regeneração Ideal de um Sinal](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H06/Entregavel01.ipynb)
 * [Entregável - Quantização](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H06/Entregavel%2002.ipynb)
 * [Entregável - TDM](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H06/Entregavel%2003.ipynb)
-
+## Hands-On 07
+* [ Entregável - D01](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H07/D01%20-%20H07.ipynb)
