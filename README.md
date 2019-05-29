@@ -32,3 +32,6 @@ Repositório contendo projetos da disciplina DCO2004
 * [Entregável - TDM](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H06/Entregavel%2003.ipynb)
 ## Hands-On 07
 * [ Entregável - D01](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H07/D01%20-%20H07.ipynb)
+## Hands-ON 08
+* [D01 - Ruído AWGN](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H08/Ru%C3%ADdo%20AWGN.ipynb)
+* [D02 - BPSK](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H08/Modula%C3%A7%C3%A3o%20M-PSK.ipynb)
