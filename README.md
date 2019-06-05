@@ -35,3 +35,5 @@ Repositório contendo projetos da disciplina DCO2004
 ## Hands-ON 08
 * [D01 - Ruído AWGN](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H08/Ru%C3%ADdo%20AWGN.ipynb)
 * [D02 - BPSK](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H08/Modula%C3%A7%C3%A3o%20M-PSK.ipynb)
+## Avaliação
+[Códigos para realização da prova](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/Avalia%C3%A7%C3%A3o.ipynb)
