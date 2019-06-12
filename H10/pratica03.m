@@ -2,7 +2,7 @@
 clc;clear all; close all;
 % Parâmetros
 N = 10^6;                       % Número de símbolos BPSK a serem transmitidos
-EbN0dB =-5:2:20;     % Valores EbN0 a simular
+EbN0dB =-5:2:20;                % Valores EbN0 a simular
 % Transmissor
 d =rand(1,N) > 0.5 ;    % Dados binários 
 x = 2*d -1;                      % Símbolos BPSK: 0 representado por -1 e 1 representado por 1
