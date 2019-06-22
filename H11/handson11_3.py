@@ -18,10 +18,15 @@ T = 500                      # Tempo de símbolo OFDM
 Ts = 2                       # Tempo de símbolo em portadora única
 K = int(T/Ts)                     # Número de subportadoras independentes
 N = int(2*K)                      # DFT de N pontos
-EbN0dB= np.arange(0,14,1)
+EbN0dB= np.arange(-5,14,1)
+EsN0dB = EbN0dB + 10*np.log10(4); # 4 bits
 EbN0=10**(EbN0dB/10)
+EsN0=10**(EsN0dB/10)
 #A potência do ruído é sua variância
-sigmas=1/(2*EbN0)
+sigmas=1/(2*EsN0)
+#variances=1/(10**(EsN0dB/10))
+#sigmas=(variances/2)
+#sigmas=np.array([0.5, 0.1, 0])
 #sigmas=np.array([0,0.1,1])
 #
 # Gerar bits aleatórios
@@ -38,11 +43,11 @@ X = np.concatenate((seq16, np.conj(seq16[-1::-1])),axis=None)
 #
 # Construindo xn
 xn = np.zeros(N,dtype=np.complex128)
-#xn=ifft(fftshift((X))/np.sqrt(N)
+xn=ifft(X)*N/np.sqrt(N)
 #xn=np.fft.ifft(fftshift(X),axis=0)
-for n in range(N-1):
-    for k in range (N-1):
-        xn[n] = xn[n] + 1/np.sqrt(N)*X[k]*np.exp(1j*2*np.pi*n*k/N)
+#for n in range(N-1):
+#    for k in range (N-1):
+#        xn[n] = xn[n] + 1/np.sqrt(N)*X[k]*np.exp(1j*2*np.pi*n*k/N)
     
 # 
 ber=np.zeros(len(sigmas))
@@ -55,21 +60,25 @@ for ik in range(len(sigmas)):
     rn = xn+noise
     # DFT de rn
     Y = np.zeros(K,dtype=np.complex128)
+    Y1 = np.zeros(K,dtype=np.complex128)
+    Y2 = np.zeros(K,dtype=np.complex128)
     Z=np.zeros(K,dtype=np.complex128)
-    for k in range(K-1):
-        for n in range(N-1):
+    for k in range(K):
+        for n in range(N):
             Y[k] = Y[k] + 1/np.sqrt(N)*rn[n]*np.exp(-1j*2*np.pi*k*n/N);
 
     
-    #Y=fft(rn,K)/np.sqrt(N)
+    Y1=fft(rn)/np.sqrt(N)
+    Y2=Y1[0:250]
     
 
     #
     # Plots
-    #plt.figure(ik)
-    #plt.subplot(2,1,1)
-    #plt.scatter(np.real(Y),np.imag(Y),marker='*')
-    #plt.scatter(np.real(seq16),np.imag(seq16),marker='+')
+#    plt.figure(ik)
+#    #plt.subplot(2,1,1)
+#    plt.scatter(np.real(Y2),np.imag(Y2),marker='*')
+#    plt.scatter(np.real(seq16),np.imag(seq16),marker='+')
+#    plt.title('Constalação para $E_b$/$N_0$ = {} dB'.format(EbN0dB[ik]))
 #    scatterplot(Y)
 #    hold on
 #    scatter(real(seq16),imag(seq16), 'r', '+')
@@ -78,36 +87,41 @@ for ik in range(len(sigmas)):
     # Demodulação  
     for k in range(len(Y)): # Para percorrer todo o vetor Yk 
         if np.real(Y[k]) > 0: # Para parte real de Yk positiva
-            if np.real(Y[k]) > 2:
+            if np.real(Y2[k]) > 2:
                 Z[k] = 3
             else:
                 Z[k] = 1
 #            end
         else: # Para parte real de Yk negativa ou igual a zero
-            if np.real(Y[k]) < -2:
+            if np.real(Y2[k]) < -2:
                  Z[k] = -3
             else:
                  Z[k] = -1
 #            end
 #        end
 #
-        if np.imag(Y[k]) > 0: # Para parte imaginaria de Yk positiva
-            if np.imag(Y[k]) > 2:
+        if np.imag(Y2[k]) > 0: # Para parte imaginaria de Yk positiva
+            if np.imag(Y2[k]) > 2:
                 Z[k] = Z[k] + 1j*3
             else:
                 Z[k] = Z[k] + 1j
 #            end
         else: # Para parte imaginaria de Yk negativa ou igual a zero
-            if np.imag(Y[k]) < -2:
+            if np.imag(Y2[k]) < -2:
                  Z[k] = Z[k] - 1j*3
             else:
                  Z[k] = Z[k] - 1j
-       
-    comp=(Z[1:K-1]-X[1:K-1])
+#       
+    comp=(Z[1:K]-X[1:K])
+    
     erro=0
     for idx in range(len(comp)):
-        if comp[idx]!=0:
+        if np.abs(comp[idx])!=0:
             erro=erro+1  
+    
+#    a = np.where((Z-X[0:K]) != 0)
+#    h=X[0:K]
+#    erro = len(np.where((Z[i] == h[i] for i in range(len(Z))) is False))
     ber[ik]=erro/K
     
     
@@ -115,14 +129,17 @@ for ik in range(len(sigmas)):
 #            end
 #        end
 #    end
-#plt.subplot(2,1,2)
-plt.figure(len(sigmas)+1)
+#plt.figure(len(sigmas)+1)
+plt.figure(2)
 plt.semilogy(EbN0dB,ber,'r*',label='BER')
-BER_teorica = 2*(3/4)*0.5*erfc(np.sqrt(2*EbN0))
-plt.semilogy(EbN0dB,BER_teorica,'k-',label='P_e')
-plt.title("E_b/N_0 Vs BER para OFDM+AWGN")
+M=16 #16-QAM
+k=4 # 16=4^2
+Pe_teo=2*(1-1/np.sqrt(M))*erfc(np.sqrt(3/2*k*EbN0/(M-1)))
+plt.semilogy(EbN0dB,Pe_teo,'k-',label='P_e')
+plt.title("$E_b$/N_0 Vs BER para OFDM+AWGN")
 plt.xlabel('Eb/N0(dB)')
 plt.legend()
+plt.grid()
 plt.ylabel('Bit Error Rate or P_e')
 # Contagem de erro
 plt.show()
