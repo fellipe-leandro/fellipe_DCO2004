@@ -40,4 +40,7 @@ Repositório contendo projetos da disciplina DCO2004
 
 # Unidade 03
 ## Hands-On 10
-* [D01 - Modulação Digital em Canal com Desvanecimento](https://github.com/fellipe-leandro/fellipe_DCO2004/blob/master/H10/Entregavel.ipynb)
+* [D01 - Modulação Digital em Canal com Desvanecimento](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H10/Entregavel.ipynb)
+
+## Hands-On 11
+* [D01 - Modulação OFDM](https://nbviewer.jupyter.org/github/fellipe-leandro/fellipe_DCO2004/blob/master/H11/Entregavel%20H11.ipynb)
